@@ -2,7 +2,8 @@ const N_Heap = 20;
 const heap = new Array(N_Heap).fill(true);
 const pointers = [];
 let emptySpaces = null;
-const strategy = {}; // cada um é uma função
+const strategy = {}; 
+let method = "worst";
 
 const createList = (ini, leng) => {
     return {
@@ -47,19 +48,67 @@ const firstSpace = (list, x) => {
             return list.init;
         }
     }
-    firstSpace(list.next);
+    return firstSpace(list.next);
+};
+
+const removeNode = (index, length, list) => {
+    if(list === null)
+        return null;
+    if(list.init === index){
+        if(list.length === length)
+            return list.next;
+        list.init += length;
+        list.length -= length;
+        return list;
+    }
+    list.next = removeNode(index, length, list.next);
+    return list;
+};
+
+const bestSpace = (list, x, find = -1, length = N_Heap + 1) => {
+    if(list === null){
+        if(find != -1)
+            emptySpaces = removeNode(find, x, emptySpaces);
+        return find;
+    }
+    if(list.length === x){
+        const aux = list.init;
+        emptySpaces = removeNode(list.init, x, emptySpaces);
+        return aux;
+    }
+    if(list.length > x)
+        if(list.length < length)
+            return bestSpace(list.next, x, list.init, list.length);
+    return bestSpace(list.next, x, find, length);
+};
+
+const worstSpace = (list, x, find = -1, length = 0) => {
+    if(list === null){
+        if(find != -1)
+            emptySpaces = removeNode(find, x, emptySpaces);
+        return find;
+    }
+    if(list.length === x){
+        const aux = list.init;
+        emptySpaces = removeNode(list.init, x, emptySpaces);
+        return aux;
+    }
+    if(list.length > x)
+        if(list.length > length)
+            return worstSpace(list.next, x, list.init, list.length);
+    return worstSpace(list.next, x, find, length);
 };
 
 strategy['first'] = firstSpace;
+strategy['best'] = bestSpace;
+strategy['worst'] = worstSpace;
 
 const removePointer = (name) => {
     for(let i = 0; i < pointers.length; i++){
-        if(pointers[i] != null){
-            if(pointers[i].names.includes(name)){
-                let obj = pointers[i];
-                pointers[i] = null;
-                return obj;
-            }
+        if(pointers[i].names.includes(name)){
+            let obj = pointers[i];
+            pointers.splice(i, 1);
+            return obj;
         }
     }
     return null;
@@ -102,7 +151,7 @@ const instruction = (command) => {
     const parts = command.split(" ");
     if(parts[0] === "new"){
         const length = Number(parts[2]);
-        let index = strategy['first'](emptySpaces, length);
+        let index = strategy[method](emptySpaces, length);
         if(index != -1){
             let newPointer = createPointer([parts[1]], index, length);   
             pointers.push(newPointer);
@@ -135,14 +184,12 @@ const instruction = (command) => {
 
 emptySpaces = createList(0,N_Heap);
 
-instruction("new a 5");
-instruction("new b 3");
-instruction("new c 8");
+instruction("new a 2");
+instruction("new b 4"); 
+instruction("new d 5");
+instruction("new f 3");
+instruction("new g 2");
 instruction("del b");
+instruction("del f");
+instruction("new e 2");
 show();
-instruction("del c");
-instruction("b = a");
-show();
-instruction("new d 2");
-instruction("del b");
-instruction("exibe");
