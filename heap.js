@@ -3,7 +3,7 @@ const heap = new Array(N_Heap).fill(true);
 const pointers = [];
 let emptySpaces = null;
 const strategy = {}; 
-let method = "worst";
+let method = "next";
 
 const createList = (ini, leng) => {
     return {
@@ -49,6 +49,19 @@ const firstSpace = (list, x) => {
         }
     }
     return firstSpace(list.next);
+};
+
+const nextSpace = (list, x) => {
+    const last = pointers[pointers.length - 1];
+    if(!last || list === null)
+        return firstSpace(list, x);
+    if(last.init + last.length === list.init){
+        const index = firstSpace(list, x);
+        if(index != -1)
+            return index;
+        return firstSpace(emptySpaces, x);
+    } 
+    return nextSpace(list.next, x);
 };
 
 const removeNode = (index, length, list) => {
@@ -102,6 +115,7 @@ const worstSpace = (list, x, find = -1, length = 0) => {
 strategy['first'] = firstSpace;
 strategy['best'] = bestSpace;
 strategy['worst'] = worstSpace;
+strategy['next'] = nextSpace;
 
 const removePointer = (name) => {
     for(let i = 0; i < pointers.length; i++){
@@ -190,6 +204,7 @@ instruction("new d 5");
 instruction("new f 3");
 instruction("new g 2");
 instruction("del b");
-instruction("del f");
+instruction("del f"); 
 instruction("new e 2");
+instruction("new h 3");
 show();
