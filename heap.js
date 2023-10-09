@@ -14,7 +14,7 @@ const createList = (ini, leng) => {
 
 const createPointer = (nam, ini, leng) => {
     return {
-        name: nam,
+        names: nam,
         init: ini,
         length: leng        
     };
@@ -52,16 +52,24 @@ const firstSpace = (list, x) => {
 
 strategy['first'] = firstSpace;
 
-const removePointer = (name) => {//mudar
+const removePointer = (name) => {
     for(let i = 0; i < pointers.length; i++){
         if(pointers[i] != null){
-            if(pointers[i].name === name){
+            if(pointers[i].names.includes(name)){
                 let obj = pointers[i];
                 pointers[i] = null;
                 return obj;
             }
         }
     }
+    return null;
+};
+
+const findPointer = (name) => {
+    for(let i = 0; i < pointers.length; i++)
+        if(pointers[i] != null)
+            if(pointers[i].names.includes(name))
+                return pointers[i];
     return null;
 };
 
@@ -96,7 +104,7 @@ const instruction = (command) => {
         const length = Number(parts[2]);
         let index = strategy['first'](emptySpaces, length);
         if(index != -1){
-            let newPointer = createPointer(parts[1], index,  length);   
+            let newPointer = createPointer([parts[1]], index, length);   
             pointers.push(newPointer);
             heap.fill(false, index, index + length);
         } else
@@ -111,7 +119,18 @@ const instruction = (command) => {
         } else
         console.log("Este elemento não existe.");
     }
-    
+    if(parts[1] === "="){
+        if(!findPointer(parts[0])){
+            let target = findPointer(parts[2])
+            if(target){
+                target.names.push(parts[0]);
+            } else
+                console.log("Elemento alvo não existe.");
+        } else
+        console.log("Este elemento já existe. Use o comando del para deletar.");
+    }
+    if(parts[0] === "exibe")
+        show();
 };
 
 emptySpaces = createList(0,N_Heap);
@@ -122,8 +141,8 @@ instruction("new c 8");
 instruction("del b");
 show();
 instruction("del c");
-instruction("del a");
-/* instruction("b = a");
-instruction("new d 2");
-instruction("del b"); */
+instruction("b = a");
 show();
+instruction("new d 2");
+instruction("del b");
+instruction("exibe");
