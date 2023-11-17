@@ -7,5 +7,3 @@ First
 Best
 Worst
 Next
-
-Att
