@@ -161,7 +161,7 @@ const adjustSpace = (list) => {
     return list;
 };
 
-const instruction = (command) => {
+export const instruction = (command) => {
     const parts = command.split(" ");
     if(parts[0] === "new"){
         const length = Number(parts[2]);
@@ -197,14 +197,3 @@ const instruction = (command) => {
 };
 
 emptySpaces = createList(0,N_Heap);
-
-instruction("new a 2");
-instruction("new b 4"); 
-instruction("new d 5");
-instruction("new f 3");
-instruction("new g 2");
-instruction("del b");
-instruction("del f"); 
-instruction("new e 2");
-instruction("new h 3");
-show();
