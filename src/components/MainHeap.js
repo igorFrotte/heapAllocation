@@ -4,34 +4,42 @@ import styled from "styled-components";
 
 export default function MainHeap() {
 
-    const [forms, setForms] = useState(<></>);
+    const [nForms, setNForms] = useState(1);
 
     function handleForm(e){
         e.preventDefault();
         
     }
 
-    const operation = () => {
-        setForms(
-            <>
-                <TemplateForm onSubmit={handleForm}>
-                    <TemplateInput required type="op1" name="op1" />
-                    <TemplateInput required type="op2" name="op2" />
-                    <TemplateInput required type="op3" name="op3" />
-                    <TemplateButton type="submit" > go! </TemplateButton>
-                </TemplateForm>
-                {forms}
-            </>
+    const operation = (n) => {
+        let template = (
+            <TemplateForm onSubmit={handleForm}>
+                <TemplateInput required type="op1" name="op1" />
+                <TemplateInput required type="op2" name="op2" />
+                <TemplateInput required type="op3" name="op3" />
+                <TemplateButton type="submit" > go! </TemplateButton>
+            </TemplateForm>
         );
+        let ret = <></>;
+        for(;n!=0;n--)
+            ret = <>{template}{ret}</>;
+        return ret;
     }
 
     return (
       <>
-      {forms}
-      <TemplateButton onClick={()=> operation()} > + </TemplateButton>
+        {operation(nForms)}
+        <Container>
+        <TemplateButton onClick={()=> setNForms(nForms+1)} > + </TemplateButton>
+        {nForms > 1? <TemplateButton onClick={()=> setNForms(nForms-1)} > - </TemplateButton> : ""}
+        </Container>
       </>
     );
 }
+
+const Container = styled.div`
+    display: flex;
+`;
 
 const TemplateForm = styled.form`
     display: flex;
