@@ -197,3 +197,16 @@ export const instruction = (command) => {
 };
 
 emptySpaces = createList(0,N_Heap);
+
+/* instruction("new a 2");
+instruction("new b 4"); 
+instruction("new d 5");
+instruction("new f 3");
+instruction("k = f");
+instruction("m = a");
+instruction("new g 2");
+instruction("del b");
+instruction("del k"); 
+instruction("new e 2");
+instruction("new h 3");
+instruction("exibe"); */
