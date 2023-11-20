@@ -1,24 +1,35 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { instruction } from "../assets/script/heap";
 import styled from "styled-components";
 
 export default function MainHeap() {
+
+    const [forms, setForms] = useState(<></>);
 
     function handleForm(e){
         e.preventDefault();
         
     }
 
+    const operation = () => {
+        setForms(
+            <>
+                <TemplateForm onSubmit={handleForm}>
+                    <TemplateInput required type="op1" name="op1" />
+                    <TemplateInput required type="op2" name="op2" />
+                    <TemplateInput required type="op3" name="op3" />
+                    <TemplateButton type="submit" > go! </TemplateButton>
+                </TemplateForm>
+                {forms}
+            </>
+        );
+    }
+
     return (
       <>
-        <TemplateForm onSubmit={handleForm}>
-            <TemplateInput required type="op1" name="op1" />
-            <TemplateInput required type="op2" name="op2" />
-            <TemplateInput required type="op3" name="op3" />
-            <TemplateButton type="submit" >
-            </TemplateButton>
-        </TemplateForm>
-      </> 
+      {forms}
+      <TemplateButton onClick={()=> operation()} > + </TemplateButton>
+      </>
     );
 }
 
