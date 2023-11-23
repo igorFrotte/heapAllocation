@@ -1,9 +1,9 @@
 const N_Heap = 20;
-const heap = new Array(N_Heap).fill(true);
-const pointers = [];
-let emptySpaces = null;
+export const heap = new Array(N_Heap).fill(true);
+export const pointers = [];
+export let emptySpaces = null;
 const strategy = {}; 
-let method = "next";
+export let method = "best"; //mudar
 
 const createList = (ini, leng) => {
     return {

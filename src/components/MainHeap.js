@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { instruction } from "../assets/script/heap";
+import { instruction, heap } from "../assets/script/heap";
 import styled from "styled-components";
 
 export default function MainHeap() {
 
     const [nForms, setNForms] = useState(1);
+    const [heapList, setHeapList] = useState(heap);
 
     function handleForm(e){
         e.preventDefault();
         instruction(e.target[0].value+" "+e.target[1].value+" "+e.target[2].value);  
         instruction("exibe");
+        setHeapList([...heap]);
     }
 
     const operation = (n) => {
@@ -34,9 +36,27 @@ export default function MainHeap() {
         <TemplateButton onClick={()=> setNForms(nForms+1)} > + </TemplateButton>
         {nForms > 1? <TemplateButton onClick={()=> setNForms(nForms-1)} > - </TemplateButton> : ""}
         </Container>
+        <Heap>
+            {heapList.map( (e, i) => <div className={e? "green" : "red"} key={i}></div>)}
+        </Heap>
       </>
     );
 }
+
+const Heap = styled.div`
+    display: flex;
+    div {
+        width: 20px;
+        height: 20px;
+        margin: 5px;
+    }
+    .green {
+        background-color: green;
+    }
+    .red {
+        background-color: red;
+    }
+`;
 
 const Container = styled.div`
     display: flex;
