@@ -8,7 +8,8 @@ export default function MainHeap() {
 
     function handleForm(e){
         e.preventDefault();
-        
+        instruction(e.target[0].value+" "+e.target[1].value+" "+e.target[2].value);  
+        instruction("exibe");
     }
 
     const operation = (n) => {
@@ -21,7 +22,7 @@ export default function MainHeap() {
             </TemplateForm>
         );
         let ret = <></>;
-        for(;n!=0;n--)
+        for(;n!==0;n--)
             ret = <>{template}{ret}</>;
         return ret;
     }

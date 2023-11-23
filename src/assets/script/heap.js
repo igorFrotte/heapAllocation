@@ -43,7 +43,7 @@ const firstSpace = (list, x) => {
             list.next.init += x;
             return index;
         }
-        if(list.next.length == x){
+        if(list.next.length === x){
             list.next = list.next.next;
             return list.init;
         }
@@ -57,7 +57,7 @@ const nextSpace = (list, x) => {
         return firstSpace(list, x);
     if(last.init + last.length === list.init){
         const index = firstSpace(list, x);
-        if(index != -1)
+        if(index !== -1)
             return index;
         return firstSpace(emptySpaces, x);
     } 
@@ -80,7 +80,7 @@ const removeNode = (index, length, list) => {
 
 const bestSpace = (list, x, find = -1, length = N_Heap + 1) => {
     if(list === null){
-        if(find != -1)
+        if(find !== -1)
             emptySpaces = removeNode(find, x, emptySpaces);
         return find;
     }
@@ -97,7 +97,7 @@ const bestSpace = (list, x, find = -1, length = N_Heap + 1) => {
 
 const worstSpace = (list, x, find = -1, length = 0) => {
     if(list === null){
-        if(find != -1)
+        if(find !== -1)
             emptySpaces = removeNode(find, x, emptySpaces);
         return find;
     }
@@ -150,7 +150,7 @@ const adjustSpace = (list) => {
     if(list === null)
         return null;
     if(list.next != null){
-        if(list. init + list.length === list.next.init){
+        if(list.init + list.length === list.next.init){
             list.length += list.next.length;
             list.next = list.next.next;
             adjustSpace(list);
@@ -164,9 +164,11 @@ const adjustSpace = (list) => {
 export const instruction = (command) => {
     const parts = command.split(" ");
     if(parts[0] === "new"){
+        if(findPointer(parts[1]) !== null)
+            return;
         const length = Number(parts[2]);
         let index = strategy[method](emptySpaces, length);
-        if(index != -1){
+        if(index !== -1){
             let newPointer = createPointer([parts[1]], index, length);   
             pointers.push(newPointer);
             heap.fill(false, index, index + length);
