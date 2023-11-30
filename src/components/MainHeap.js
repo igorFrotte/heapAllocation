@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { instruction, heap } from "../assets/script/heap";
+import { instruction, heap, pointers } from "../assets/script/heap";
 import styled from "styled-components";
 
 export default function MainHeap() {
@@ -9,7 +9,7 @@ export default function MainHeap() {
 
     function handleForm(e){
         e.preventDefault();
-        instruction(e.target[0].value+" "+e.target[1].value+" "+e.target[2].value);  
+        instruction(e.target[0].value);  
         instruction("exibe");
         setHeapList([...heap]);
     }
@@ -17,9 +17,7 @@ export default function MainHeap() {
     const operation = (n) => {
         let template = (
             <TemplateForm onSubmit={handleForm}>
-                <TemplateInput required type="op1" name="op1" />
-                <TemplateInput required type="op2" name="op2" />
-                <TemplateInput required type="op3" name="op3" />
+                <TemplateInput required type="command" name="command" />
                 <TemplateButton type="submit" > go! </TemplateButton>
             </TemplateForm>
         );
@@ -29,8 +27,10 @@ export default function MainHeap() {
         return ret;
     }
 
+    console.log(pointers);
+
     return (
-      <>
+      <Page>
         {operation(nForms)}
         <Container>
         <TemplateButton onClick={()=> setNForms(nForms+1)} > + </TemplateButton>
@@ -39,16 +39,71 @@ export default function MainHeap() {
         <Heap>
             {heapList.map( (e, i) => <div className={e? "green" : "red"} key={i}></div>)}
         </Heap>
-      </>
+        <Pointers>
+            {pointers.map( (e, i) => <div key={i}>
+                <div>{e.names.map( (el) => el+" ")}</div>
+                <div>
+                    <div>Inicial:</div>
+                    <div>{e.init}</div>
+                </div>
+                <div>
+                    <div>Tamanho:</div>
+                    <div>{e.length}</div>
+                </div>
+            </div>)}
+        </Pointers>
+      </Page>
     );
 }
+
+const Page = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Raleway';
+
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+`;
+
+const Pointers = styled.div`
+    & > div {
+        background-color: aqua;
+        width: 150px;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 5px;
+        flex-direction: column;
+
+        & > div:first-child {
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        & > div {
+            display: flex;
+            margin: 3px;
+            font-size: 18px;
+
+            & > div {
+                padding: 0 5px;
+            }
+        }
+    }
+`;
 
 const Heap = styled.div`
     display: flex;
     div {
-        width: 20px;
-        height: 20px;
-        margin: 5px;
+        width: 40px;
+        height: 40px;
+        margin: 8px;
+        border-radius: 10px;
+        border: 2px black solid;
     }
     .green {
         background-color: green;
@@ -67,12 +122,11 @@ const TemplateForm = styled.form`
 `;
 
 const TemplateInput = styled.input`
-    width: 60px;
+    width: 300px;
     height: 60px;
     background: #FFFFFF;
     border-radius: 5px;
     font-size: 20px;
-    font-family: 'Raleway';
     color: #8C11BE;
     padding-left: 10px;
     margin: 10px;
