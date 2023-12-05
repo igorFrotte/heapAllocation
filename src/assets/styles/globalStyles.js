@@ -29,6 +29,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background: linear-gradient(#637999, #6895be);
+	min-height: 100vh;
 }
 ol, ul {
 	list-style: none;

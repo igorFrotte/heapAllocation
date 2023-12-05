@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { instruction, heap, pointers } from "../assets/script/heap";
+import { instruction, heap, pointers, method, setMethod } from "../assets/script/heap";
 import styled from "styled-components";
 
 export default function MainHeap() {
 
     const [nForms, setNForms] = useState(1);
     const [heapList, setHeapList] = useState(heap);
+    const [att, setAtt] = useState(true);
+
+    function setMet(valor){
+        setMethod(valor);
+        setAtt(!att);
+    }
 
     function handleForm(e){
         e.preventDefault();
@@ -18,7 +24,7 @@ export default function MainHeap() {
         let template = (
             <TemplateForm onSubmit={handleForm}>
                 <TemplateInput required type="command" name="command" />
-                <TemplateButton type="submit" > go! </TemplateButton>
+                <TemplateButton color="#031634" type="submit" > go! </TemplateButton>
             </TemplateForm>
         );
         let ret = <></>;
@@ -27,14 +33,18 @@ export default function MainHeap() {
         return ret;
     }
 
-    console.log(pointers);
-
     return (
       <Page>
+        <div>
+        <TemplateButton color={method === "first"? "#031634" : "#447390"} onClick={()=> setMet("first")} > First </TemplateButton>
+        <TemplateButton color={method === "best"? "#031634" : "#447390"} onClick={()=> setMet("best")} > Best </TemplateButton>
+        <TemplateButton color={method === "worst"? "#031634" : "#447390"} onClick={()=> setMet("worst")} > Worst </TemplateButton>
+        <TemplateButton color={method === "next"? "#031634" : "#447390"} onClick={()=> setMet("next")} > Next </TemplateButton>
+        </div>
         {operation(nForms)}
         <Container>
-        <TemplateButton onClick={()=> setNForms(nForms+1)} > + </TemplateButton>
-        {nForms > 1? <TemplateButton onClick={()=> setNForms(nForms-1)} > - </TemplateButton> : ""}
+        <TemplateButton color="#031634" onClick={()=> setNForms(nForms+1)} > + </TemplateButton>
+        {nForms > 1? <TemplateButton color="#031634" onClick={()=> setNForms(nForms-1)} > - </TemplateButton> : ""}
         </Container>
         <Heap>
             {heapList.map( (e, i) => <div className={e? "green" : "red"} key={i}></div>)}
@@ -72,7 +82,7 @@ const Page = styled.div`
 
 const Pointers = styled.div`
     & > div {
-        background-color: aqua;
+        background-color: #447390;
         width: 150px;
         padding: 10px;
         margin: 5px;
@@ -127,7 +137,7 @@ const TemplateInput = styled.input`
     background: #FFFFFF;
     border-radius: 5px;
     font-size: 20px;
-    color: #8C11BE;
+    color: #031634;
     padding-left: 10px;
     margin: 10px;
 `;
@@ -135,7 +145,7 @@ const TemplateInput = styled.input`
 const TemplateButton = styled.button`
     width: 60px;
     height: 60px;
-    background: #A328D6;
+    background: ${props => props.color};
     border-radius: 5px;
     font-size: 20px;
     line-height: 23px;
