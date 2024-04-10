@@ -9,6 +9,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainHeap />} />
+          <Route path="/heapAllocation" element={<MainHeap />} />
         </Routes>
       </BrowserRouter>
     </> 
