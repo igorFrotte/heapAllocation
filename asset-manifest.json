@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/heapAllocation/static/js/main.4e60dcf6.js",
+    "main.js": "/heapAllocation/static/js/main.b4f5a110.js",
     "static/js/787.96b8647b.chunk.js": "/heapAllocation/static/js/787.96b8647b.chunk.js",
     "index.html": "/heapAllocation/index.html",
-    "main.4e60dcf6.js.map": "/heapAllocation/static/js/main.4e60dcf6.js.map",
+    "main.b4f5a110.js.map": "/heapAllocation/static/js/main.b4f5a110.js.map",
     "787.96b8647b.chunk.js.map": "/heapAllocation/static/js/787.96b8647b.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.4e60dcf6.js"
+    "static/js/main.b4f5a110.js"
   ]
 }
