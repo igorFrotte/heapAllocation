@@ -62,9 +62,37 @@ export default function MainHeap() {
                 </div>
             </div>)}
         </Pointers>
+        <Legend>
+                <p>Exemplo:</p>
+                <div>new a 3</div>
+                <div>new b 2</div>
+                <div>new c 4</div>  
+                <div>d = b</div>
+                <div>del d</div>
+                <div>new e 1</div>            
+        </Legend>
       </Page>
     );
 }
+
+const Legend = styled.div`
+    display: flex;
+    z-index: -1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #447390;
+    border-radius: 20px;    
+    border: solid #031634 2px;
+    margin: 15px;
+    padding: 10px;
+    font-family: 'Raleway';
+
+    p {
+        font-weight: bold;
+        margin: 5px;    
+    }
+`;
 
 const Page = styled.div`
     display: flex;
