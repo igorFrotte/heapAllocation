@@ -3,7 +3,8 @@ export const heap = new Array(N_Heap).fill(true);
 export const pointers = [];
 let emptySpaces = null;
 const strategy = {}; 
-export let method = "best"; 
+export let method = "best";
+export let msgErro = "";
 
 export const setMethod = (value) => {
     method = value;
@@ -166,10 +167,13 @@ const adjustSpace = (list) => {
 };
 
 export const instruction = (command) => {
+    msgErro = "";
     const parts = command.split(" ");
     if(parts[0] === "new"){
-        if(findPointer(parts[1]) !== null)
+        if(findPointer(parts[1]) !== null){
+            msgErro = "Ponteiro já existe!";
             return;
+        }
         const length = Number(parts[2]);
         let index = strategy[method](emptySpaces, length);
         if(index !== -1){
@@ -177,29 +181,28 @@ export const instruction = (command) => {
             pointers.push(newPointer);
             heap.fill(false, index, index + length);
         } else
-            console.log("Não existe espaço vago para essa alocação.");
+            msgErro = "Não existe espaço vago para essa alocação.";
     }
-    if(parts[0] === "del"){
+    else if(parts[0] === "del"){
         const obj = removePointer(parts[1]);
         if(obj){
             emptySpaces = freeUpSpace(emptySpaces, obj);
             emptySpaces = adjustSpace(emptySpaces);
             heap.fill(true, obj.init, obj.init + obj.length);
         } else
-        console.log("Este elemento não existe.");
+        msgErro = "Este elemento não existe.";
     }
-    if(parts[1] === "="){
+    else if(parts[1] === "="){
         if(!findPointer(parts[0])){
             let target = findPointer(parts[2])
             if(target){
                 target.names.push(parts[0]);
-            } else
-                console.log("Elemento alvo não existe.");
-        } else
-        console.log("Este elemento já existe. Use o comando del para deletar.");
+            } else msgErro = "Elemento alvo não existe.";
+        } else msgErro = "Este elemento já existe. Use o comando del para deletar.";
     }
-    if(parts[0] === "exibe")
+    else if(parts[0] === "exibe")
         show();
+    else msgErro = "Comando inválido!";
 };
 
 emptySpaces = createList(0,N_Heap);

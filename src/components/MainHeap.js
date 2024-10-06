@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { instruction, heap, pointers, method, setMethod } from "../assets/script/heap";
+import { instruction, heap, pointers, method, setMethod, msgErro } from "../assets/script/heap";
+import git from "../assets/img/git.png";
 import styled from "styled-components";
 
 export default function MainHeap() {
@@ -16,7 +17,6 @@ export default function MainHeap() {
     function handleForm(e){
         e.preventDefault();
         instruction(e.target[0].value);  
-        instruction("exibe");
         setHeapList([...heap]);
     }
 
@@ -49,6 +49,7 @@ export default function MainHeap() {
         <Heap>
             {heapList.map( (e, i) => <div className={e? "green" : "red"} key={i}></div>)}
         </Heap>
+        <MsgE>{msgErro}</MsgE>
         <Pointers>
             {pointers.map( (e, i) => <div key={i}>
                 <div>{e.names.map( (el) => el+" ")}</div>
@@ -71,9 +72,31 @@ export default function MainHeap() {
                 <div>del d</div>
                 <div>new e 1</div>            
         </Legend>
+        <Git href="https://github.com/igorFrotte/heapAllocation">
+            <img src={git} />
+        </Git>
       </Page>
     );
 }
+
+const Git = styled.a`
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    
+    img {
+        width: 80px;
+        border-radius: 20px;
+    }
+
+`;
+
+const MsgE = styled.div`
+    color: #c33;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0px;
+`;
 
 const Legend = styled.div`
     display: flex;
