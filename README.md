@@ -41,3 +41,5 @@ Simulação de BackEnd : https://github.com/igorFrotte/heapAllocation/blob/maste
 -Interfaces Diferentes
 
 -Implementação das funções principais de outras maneiras
+
+-Implementar com uma linguagem diferente
